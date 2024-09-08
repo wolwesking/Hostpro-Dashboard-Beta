@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
+	import { getUserData } from "$lib/AuthHandler";
+	import { onMount } from "svelte";
 
-	// Component State
+
 	let isRegistering = false;
 	let email = '';
 	let username = '';
@@ -9,31 +10,16 @@
 	let confirmPassword = '';
 	let errorMessage = '';
 
-	// Toggle between login and register
+	onMount(async()=>{
+		await getUserData();
+	})
+
 	const toggleRegistering = () => {
 		isRegistering = !isRegistering;
 		errorMessage = '';
 	};
 
-	// Handle form submission
-	const handleSubmit = (event: Event) => {
-		event.preventDefault();
-		errorMessage = '';
-
-		// Basic validation for demo purposes
-		if (!email || !password || (isRegistering && !username)) {
-			errorMessage = 'Please fill in all required fields.';
-			return;
-		}
-
-		if (isRegistering && password !== confirmPassword) {
-			errorMessage = 'Passwords do not match.';
-			return;
-		}
-
-		// Redirect to a different page after successful login/register
-		goto('/dashboard');
-	};
+	const handleSubmit = ()=>{}
 </script>
 
 <!-- Main Container -->
