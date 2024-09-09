@@ -47,7 +47,7 @@ export async function getUserData(): Promise<any> {
 }
 
 // Function to logout a user
-export function logout(): void {
+export function LogoutUser(): void {
     pb.authStore.clear();
 }
 

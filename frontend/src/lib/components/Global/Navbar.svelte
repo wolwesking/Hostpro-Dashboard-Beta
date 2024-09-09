@@ -2,6 +2,15 @@
 	import { page } from '$app/stores';
 	import { derived } from 'svelte/store';
 	import { goto } from '$app/navigation';
+	import { getUserData, LogoutUser } from '$lib/AuthHandler';
+	import { onMount } from 'svelte';
+
+	let username:string;
+
+	onMount(async () => {
+		const res:any = await getUserData();
+		username = res.username;
+	});
 
 	// Derive the current path to highlight the active link
 	const currentPath = derived(page, ($page) => $page.url.pathname);
@@ -13,8 +22,8 @@
 
 	// Logout function (you can implement the actual logout logic here)
 	function logout() {
-		// Perform logout logic here, such as clearing tokens or calling an API
-		goto('/login'); // Redirect to login page after logout
+		LogoutUser();
+		goto('/'); // Redirect to login page after logout
 	}
 </script>
 
@@ -26,7 +35,6 @@
 	<div class="flex h-16 items-center justify-center border-b border-gray-700">
 		<h2 class="text-2xl font-bold">Game Dashboard</h2>
 	</div>
-
 	<!-- Navigation Links -->
 	<nav class="flex-1 space-y-2 py-6">
 		<!-- Servers Link -->
@@ -82,6 +90,8 @@
 
 	<!-- Logout Button at the Bottom -->
 	<div class="mb-6 px-6">
+		<p class="text-center">{username}</p>
+		<br>
 		<button
 			class="flex w-full items-center gap-3 px-6 py-3 text-lg font-medium transition-colors rounded-3xl bg-red-600 hover:bg-red-700"
 			on:click={logout}

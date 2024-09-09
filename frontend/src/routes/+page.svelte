@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { registerUser, loginUser, isAuthenticated, logout } from '$lib/AuthHandler';
+	import { registerUser, loginUser, isAuthenticated, LogoutUser } from '$lib/AuthHandler';
 	import { onMount } from 'svelte';
 
 	let isRegistering = false;
