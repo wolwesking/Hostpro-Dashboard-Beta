@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { getUserData } from "$lib/AuthHandler";
-	import { onMount } from "svelte";
-
+	import { goto } from '$app/navigation';
+	import { registerUser, loginUser, isAuthenticated, logout } from '$lib/AuthHandler';
+	import { onMount } from 'svelte';
 
 	let isRegistering = false;
 	let email = '';
@@ -9,17 +9,74 @@
 	let password = '';
 	let confirmPassword = '';
 	let errorMessage = '';
+	let successMessage = '';
 
-	onMount(async()=>{
-		await getUserData();
-	})
+	// Check if user is loged in
+
+	onMount(async () => {
+		const res: any = await isAuthenticated();
+		if (res === true) {
+			goto("/dashboard")
+		}
+	});
 
 	const toggleRegistering = () => {
 		isRegistering = !isRegistering;
 		errorMessage = '';
+		successMessage = '';
 	};
 
-	const handleSubmit = ()=>{}
+	const validateEmail = (email: string) => {
+		const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		return emailPattern.test(email);
+	};
+
+	const handleSubmit = async (event: Event) => {
+		event.preventDefault();
+
+		// Basic validation
+		if (!validateEmail(email)) {
+			errorMessage = 'Please enter a valid email address.';
+			return;
+		}
+
+		if (password.length < 8) {
+			errorMessage = 'Password must be at least 8 characters long.';
+			return;
+		}
+
+		if (isRegistering) {
+			if (password !== confirmPassword) {
+				errorMessage = 'Passwords do not match.';
+				return;
+			}
+			const res = await registerUser(username, email, password, confirmPassword);
+			if (res.error) {
+				errorMessage = res.error;
+			} else {
+				const loginRes: any = await loginUser(email, password);
+				if (loginRes.error) {
+					errorMessage = loginRes.error;
+				} else {
+					successMessage = 'Registration and login successful!';
+					isRegistering = false;
+					email = '';
+					username = '';
+					password = '';
+					confirmPassword = '';
+					goto('/dashboard');
+				}
+			}
+		} else {
+			const res: any = await loginUser(email, password);
+			if (res.error) {
+				errorMessage = res.error;
+			} else {
+				successMessage = 'Login successful!';
+				goto('/dashboard');
+			}
+		}
+	};
 </script>
 
 <!-- Main Container -->
@@ -29,6 +86,13 @@
 		{#if errorMessage}
 			<div class="rounded-md bg-red-900 px-4 py-3 text-red-200 border border-red-700">
 				<p>{errorMessage}</p>
+			</div>
+		{/if}
+
+		<!-- Success Message Display -->
+		{#if successMessage}
+			<div class="rounded-md bg-green-900 px-4 py-3 text-green-200 border border-green-700">
+				<p>{successMessage}</p>
 			</div>
 		{/if}
 
@@ -44,9 +108,12 @@
 						type="email"
 						bind:value={email}
 						required
-						class="mt-1 block w-full h-12 rounded-md border-gray-700 bg-gray-800 text-white shadow-sm focus:border-white focus:ring-white sm:text-sm px-3"
+						class="mt-1 block w-full h-12 rounded-md border-gray-700 bg-gray-800 text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-3"
 						placeholder="you@example.com"
 					/>
+					{#if !validateEmail(email) && email}
+						<p class="mt-2 text-sm text-red-500">Invalid email format.</p>
+					{/if}
 				</div>
 
 				<!-- Username Input (only for registration) -->
@@ -58,7 +125,7 @@
 							type="text"
 							bind:value={username}
 							required
-							class="mt-1 block w-full h-12 rounded-md border-gray-700 bg-gray-800 text-white shadow-sm focus:border-white focus:ring-white sm:text-sm px-3"
+							class="mt-1 block w-full h-12 rounded-md border-gray-700 bg-gray-800 text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-3"
 							placeholder="Your username"
 						/>
 					</div>
@@ -72,9 +139,12 @@
 						type="password"
 						bind:value={password}
 						required
-						class="mt-1 block w-full h-12 rounded-md border-gray-700 bg-gray-800 text-white shadow-sm focus:border-white focus:ring-white sm:text-sm px-3"
+						class="mt-1 block w-full h-12 rounded-md border-gray-700 bg-gray-800 text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-3"
 						placeholder="********"
 					/>
+					{#if password.length < 8 && password}
+						<p class="mt-2 text-sm text-red-500">Password must be at least 8 characters long.</p>
+					{/if}
 				</div>
 
 				<!-- Confirm Password Input (only for registration) -->
@@ -88,7 +158,7 @@
 							type="password"
 							bind:value={confirmPassword}
 							required
-							class="mt-1 block w-full h-12 rounded-md border-gray-700 bg-gray-800 text-white shadow-sm focus:border-white focus:ring-white sm:text-sm px-3"
+							class="mt-1 block w-full h-12 rounded-md border-gray-700 bg-gray-800 text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-3"
 							placeholder="********"
 						/>
 					</div>
@@ -97,7 +167,7 @@
 				<!-- Submit Button -->
 				<button
 					type="submit"
-					class="w-full flex justify-center rounded-md bg-white px-4 py-2 text-black font-semibold shadow hover:bg-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
+					class="w-full flex justify-center rounded-md bg-white px-4 py-2 text-black font-semibold shadow hover:bg-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
 				>
 					{isRegistering ? 'Register' : 'Login'}
 				</button>
