@@ -5,11 +5,18 @@
 	import { getUserData, LogoutUser } from '$lib/AuthHandler';
 	import { onMount } from 'svelte';
 
-	let username:string;
+	let username = 'username';
 
+	// Fetch user data on component mount
 	onMount(async () => {
-		const res:any = await getUserData();
-		username = res.username;
+		try {
+			// Assuming getUserData is a function that fetches user data
+			const res: any = await getUserData();
+			// Update the reactive variable
+			username = res.username;
+		} catch (error) {
+			console.error('Error fetching user data:', error);
+		}
 	});
 
 	// Derive the current path to highlight the active link
@@ -28,9 +35,7 @@
 </script>
 
 <!-- Sidebar Container -->
-<aside
-	class="fixed z-10 flex h-screen w-64 flex-col rounded-r-2xl bg-black text-white "
->
+<aside class="fixed z-10 flex h-screen w-64 flex-col rounded-r-2xl bg-black text-white">
 	<!-- Header -->
 	<div class="flex h-16 items-center justify-center border-b border-gray-700">
 		<h2 class="text-2xl font-bold">Game Dashboard</h2>
@@ -91,7 +96,7 @@
 	<!-- Logout Button at the Bottom -->
 	<div class="mb-6 px-6">
 		<p class="text-center">{username}</p>
-		<br>
+		<br />
 		<button
 			class="flex w-full items-center gap-3 px-6 py-3 text-lg font-medium transition-colors rounded-3xl bg-red-600 hover:bg-red-700"
 			on:click={logout}
