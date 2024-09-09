@@ -29,7 +29,7 @@
 
 <!-- Sidebar Container -->
 <aside
-	class="fixed inset-y-0 left-0 z-10 flex h-screen w-64 flex-col rounded-r-2xl bg-black text-white"
+	class="fixed z-10 flex h-screen w-64 flex-col rounded-r-2xl bg-black text-white "
 >
 	<!-- Header -->
 	<div class="flex h-16 items-center justify-center border-b border-gray-700">
