@@ -19,12 +19,12 @@
       <h2 class="text-lg font-semibold">{plan.name}</h2>
       <div class={`px-2 py-1 rounded-full text-xs font-medium ${statusColor}`}>{plan.status}</div>
     </div>
-    <p class="text-gray-400 mb-4">{plan.status === 'Active' ? `Renews on ${plan.renewDate}` : `Expired on ${plan.renewDate}`}</p>
+    <p class="text-gray-400 mb-4">Expires on {plan.renewDate}</p>
     <button
       on:click={handleCancel}
-      class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors duration-200"
+      class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors duration-200"
     >
-      Cancel Subscription
+      Renew Subscription
     </button>
   </div>
   

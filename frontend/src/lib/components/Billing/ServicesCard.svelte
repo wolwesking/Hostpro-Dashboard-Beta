@@ -32,7 +32,7 @@
   </ul>
 
   <!-- Price and Buy Button -->
-  <p class="text-white mb-4">Price: <span class="text-yellow-500 font-semibold">{service.price}</span> €/mo</p>
+  <p class="text-white mb-4">Price: <span class="text-yellow-500 font-semibold">{service.price}</span></p>
   <button
     on:click={service.handlePurchase}
     class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors duration-200"

@@ -2,9 +2,10 @@ import { cancel_callback, success_callback } from '$env/static/private';
 import stripe from '$lib/server/stripeInit';
 import { json } from '@sveltejs/kit';
 
-export async function POST() {
+export async function POST({ request }) {
     try {
-        // Create a Checkout Session for the basic plan
+        const { clientId } = await request.json();
+
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             mode: 'payment',
@@ -16,9 +17,8 @@ export async function POST() {
             ],
             success_url: success_callback,
             cancel_url: cancel_callback,
+            client_reference_id: clientId,
         });
-
-        console.log("session: " + session);
 
         return json({ url: session.url });
     } catch (error) {

@@ -1,5 +1,6 @@
 import { stripe_webhook } from "$env/static/private";
 import stripe from "$lib/server/stripeInit";
+import { activateSubscription } from "$lib/server/subscriptionManager.js";
 import { json } from '@sveltejs/kit';
 import { buffer } from 'node:stream/consumers';
 
@@ -23,17 +24,15 @@ export async function POST ({request}){
         switch (event.type) {
             case 'checkout.session.completed': {
                 const session = event.data.object;
-                console.log('Payment was successful!', session);
-                // Handle successful payment, such as updating your database
-                
+                const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
+                await activateSubscription(session, lineItems)
+
                 break;
             }
 
             default:
                 console.log(`Unhandled event type ${event.type}`);
         }
-
-        // Return a response to acknowledge receipt of the event
         return json({ received: true });
     } catch (error) {
         console.error(`Error processing event ${event.type}:`, error);
