@@ -5,7 +5,7 @@
 	onMount(async () => {
 		const res: any = await isAuthenticated();
 		if (res === true) {
-			goto('dashboard/servers');
+			goto('/dashboard/servers');
 		}
 		else
 		{

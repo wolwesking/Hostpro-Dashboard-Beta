@@ -5,7 +5,7 @@
 	import { getUserData, LogoutUser } from '$lib/AuthHandler';
 	import { onMount } from 'svelte';
 
-	let username = 'username';
+	$: username = 'username';
 
 	// Fetch user data on component mount
 	onMount(async () => {
@@ -13,7 +13,7 @@
 			// Assuming getUserData is a function that fetches user data
 			const res: any = await getUserData();
 			// Update the reactive variable
-			username = res.username;
+			username = await res.username;
 		} catch (error) {
 			console.error('Error fetching user data:', error);
 		}
@@ -95,7 +95,7 @@
 
 	<!-- Logout Button at the Bottom -->
 	<div class="mb-6 px-6">
-		<p class="text-center">{username}</p>
+		<p class="text-center">{username || "username"}</p>
 		<br />
 		<button
 			class="flex w-full items-center gap-3 px-6 py-3 text-lg font-medium transition-colors rounded-3xl bg-red-600 hover:bg-red-700"

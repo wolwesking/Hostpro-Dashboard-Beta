@@ -4,11 +4,7 @@
     description: Array<string>;
     price: string;
     available: boolean;
-  };
-
-  // Handle the purchase button click
-  const handlePurchase = () => {
-    alert(`Purchased ${service.name} for ${service.price}`);
+    handlePurchase:any
   };
 </script>
 
@@ -38,7 +34,7 @@
   <!-- Price and Buy Button -->
   <p class="text-white mb-4">Price: <span class="text-yellow-500 font-semibold">{service.price}</span> €/mo</p>
   <button
-    on:click={handlePurchase}
+    on:click={service.handlePurchase}
     class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors duration-200"
     disabled={!service.available}
   >

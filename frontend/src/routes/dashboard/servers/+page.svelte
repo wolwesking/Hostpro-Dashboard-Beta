@@ -9,7 +9,7 @@
 		{ name: 'Game Server 5', status: 'Online', ip: '192.168.1.104', port: 25565, url:"asd" },
 		{ name: 'Game Server 6', status: 'Offline', ip: '192.168.1.105', port: 25565, url:"asd" },
 	];
-
+	
 </script>
 
 <!-- Main Container -->

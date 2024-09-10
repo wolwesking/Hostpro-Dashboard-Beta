@@ -1,6 +1,7 @@
 <script>
-	import ServiceOverview from './../../../lib/components/Billing/ServiceOverview.svelte';
+	import ServiceOverview from '$lib/components/Billing/ServiceOverview.svelte';
 	import BillingOverview from '$lib/components/Billing/SubscriptionView.svelte';
+	import satisfactoryBasic from '$lib/Subscription';
 	const currentSubscriptions = [
 		{ name: 'Basic Plan', status: 'Active', renewDate: 'June 15, 2024' },
 		{ name: 'Pro Plan', status: 'Expired', renewDate: 'March 31, 2023' },
@@ -12,7 +13,8 @@
 			name: 'Basic',
 			description: ['2gb ram', '1 vcore', '10gb ssd'],
 			price: '4.00',
-			available: true
+			available: true,
+			handlePurchase: async()=>await satisfactoryBasic()
 		},
 		{
 			name: 'Recomended',
@@ -27,6 +29,7 @@
 			available: true
 		}
 	];
+	
 </script>
 
 <BillingOverview plans={currentSubscriptions} />

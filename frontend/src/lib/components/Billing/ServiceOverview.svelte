@@ -9,7 +9,7 @@
 	<h1 class="text-2xl font-bold mb-6 text-white dark:text-white">Available Services</h1>
 	<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 		{#each services as service}
-			<ServicesCard {service} />
+			<ServicesCard {service}/>
 		{/each}
 	</div>
 </div>
