@@ -15,23 +15,6 @@
 			<p class="mt-2 text-sm text-gray-400">Your transaction has been processed successfully.</p>
 		</div>
 
-		<div class="mt-8 space-y-6">
-			<div class="flex justify-between items-center border-t border-gray-700 pt-6">
-				<span class="text-sm font-medium text-gray-400">Amount Paid</span>
-				<span class="text-lg font-semibold">$99.99</span>
-				<!-- You can make this dynamic if needed -->
-			</div>
-			<div class="flex justify-between items-center">
-				<span class="text-sm font-medium text-gray-400">Transaction ID</span>
-				<span class="text-sm">TRX123456789</span>
-				<!-- Replace with actual transaction ID if available -->
-			</div>
-			<div class="flex justify-between items-center">
-				<span class="text-sm font-medium text-gray-400">Date</span>
-				<span class="text-sm">{new Date().toLocaleDateString()}</span>
-			</div>
-		</div>
-
 		<div class="mt-10">
 			<button
 				on:click={handleReturnToDashboard}

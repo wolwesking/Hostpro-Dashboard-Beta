@@ -20,22 +20,6 @@
 			</p>
 		</div>
 
-		<div class="mt-8 space-y-6">
-			<div class="flex justify-between items-center border-t border-gray-700 pt-6">
-				<span class="text-sm font-medium text-gray-400">Status</span>
-				<span class="text-sm font-semibold text-red-500">Failed</span>
-			</div>
-			<div class="flex justify-between items-center">
-				<span class="text-sm font-medium text-gray-400">Error Code</span>
-				<span class="text-sm">ERR123456</span>
-				<!-- Replace with dynamic error code if available -->
-			</div>
-			<div class="flex justify-between items-center">
-				<span class="text-sm font-medium text-gray-400">Date</span>
-				<span class="text-sm">{new Date().toLocaleDateString()}</span>
-			</div>
-		</div>
-
 		<div class="mt-10 space-y-4">
 			<button
 				on:click={handleReturnToCheckout}

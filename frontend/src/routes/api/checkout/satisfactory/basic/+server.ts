@@ -18,6 +18,8 @@ export async function POST() {
             cancel_url: cancel_callback,
         });
 
+        console.log("session: " + session);
+
         return json({ url: session.url });
     } catch (error) {
         console.error('Error creating Stripe Checkout session:', error);
